@@ -30,3 +30,7 @@ db.people.aggregate(
          
       }
     });
+
+
+
+    // EJERCICIO PELÍCULAS : mongoimport --db movies --collection movies --drop --file "C:\Users\mati\Documents\mongo-mapreduce-1\movieDetails.json" --port 27017
