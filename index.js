@@ -5,20 +5,28 @@ mongorestore --db people --verbose "C:\Users\mati\Documents\mongo-mapreduce-1\BB
 
 // 2. Generar por map-reduce una colección de personas (campo name) y su puntuación (campo points) */
 
-var map = function() {
-  emit(this.name, { age: this.points, count: 1 });
+const map = function() {
+  emit(this.name, this.points);
 };
 
 var reduce = function(keys, values) {
-  var reduced = {
-    points: 0
-  };
-
-  for (var i = 0; i < values.length; i++) {
-    reduced.points += 1;
-  }
-  return reduced;
-};
+  return Array.sum(values);
+}
 
 
-db.people.mapReduce(map,reduce,{out:‘map_reduce_result’});
+
+//3. Comprobar el resultado sobre la nueva colección
+
+db.people.mapReduce(map,reduce,{out:"map_reduce_result"});
+
+
+// 4. Generar el mismo resultado mediante una función aggregate
+
+db.people.aggregate(
+  {
+      $group:
+      {_id:“$name”,
+          totaPoints:{$sum:“$points”}
+         
+      }
+    });
