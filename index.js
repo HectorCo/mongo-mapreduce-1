@@ -25,8 +25,8 @@ db.people.mapReduce(map,reduce,{out:"map_reduce_result"});
 db.people.aggregate(
   {
       $group:
-      {_id:“$name”,
-          totaPoints:{$sum:“$points”}
+      {_id:'$name',
+          totalPoints:{$sum:'$points'}
          
       }
     });
